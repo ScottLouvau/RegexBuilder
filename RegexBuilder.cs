@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Resources;
@@ -60,6 +57,7 @@ namespace Regex_Builder
         private RegexOptions optionsForThread;
 
         private ArrayList matchesFromThread;
+        private ArrayList matchNodesFromThread;
         private string statusFromThread;
         #endregion
 
@@ -223,7 +221,7 @@ namespace Regex_Builder
             MatchInformation.Nodes.Clear();
 
             // Build the Tree and highlight the matches
-            foreach (TreeNode matchNode in matchesFromThread)
+            foreach (TreeNode matchNode in matchNodesFromThread)
             {
                 MatchInformation.Nodes.Add(matchNode);
 
@@ -251,14 +249,15 @@ namespace Regex_Builder
 
         private void RunExpressionInThread()
         {
-            RunExpressionInThread(expressionForThread, textForThread, optionsForThread, out matchesFromThread, out statusFromThread);
+            RunExpressionInThread(expressionForThread, textForThread, optionsForThread, out matchNodesFromThread, out matchesFromThread, out statusFromThread);
             this.Invoke(new SetExpressionResultDelegate(SetExpressionResult));
         }
 
-        private void RunExpressionInThread(string expressionText, string sourceText, RegexOptions options, out ArrayList matchNodes, out string status)
+        private void RunExpressionInThread(string expressionText, string sourceText, RegexOptions options, out ArrayList matchNodes, out ArrayList matchList, out string status)
         {
             // Set default return values - nothing
             matchNodes = new ArrayList();
+            matchList = new ArrayList();
             status = "";
 
             // If there is no expression, just return.
@@ -271,7 +270,7 @@ namespace Regex_Builder
                 Regex expression = new Regex(expressionText, options);
 
                 // Find the first n Matches
-                ArrayList matchList = GetMatches(expression, sourceText);
+                matchList = GetMatches(expression, sourceText);
 
                 if (matchList.Count == 0)
                 {
@@ -316,7 +315,7 @@ namespace Regex_Builder
                         TreeNode groupNode = new TreeNode();
                         string groupID = expression.GroupNameFromNumber(groupIndex);
                         if (groupID != groupIndex.ToString()) groupID = "\"" + groupID + "\"";
-                        groupNode.Text =  groupID + ": [" + matchObject.Groups[groupIndex].Value + "]";
+                        groupNode.Text = groupID + ": [" + matchObject.Groups[groupIndex].Value + "]";
                         groupNode.Tag = new Region(matchObject.Groups[groupIndex].Index, matchObject.Groups[groupIndex].Length, RegionType.Group, matchIndex.ToString(), groupID, null);
 
                         //...add sub-elements for each Group Capture, if there is more than one capture
@@ -397,7 +396,7 @@ namespace Regex_Builder
 
             foreach (RegexOptions value in Enum.GetValues(typeof(RegexOptions)))
             {
-                if( ((currentOptions & value) != RegexOptions.None))
+                if (((currentOptions & value) != RegexOptions.None))
                 {
                     if (result.Length != 0) result.Append(" " + join + " ");
                     result.Append("RegexOptions." + value.ToString());
@@ -736,6 +735,17 @@ namespace Regex_Builder
                 MessageBox.Show(this, "Regex Builder could not browse to a URL due to security restrictions. Please copy Regex Builder to your local drive and run it from there.");
             }
         }
+
+        private void CopyAllMatchesToClipboard()
+        {
+            StringBuilder allMatches = new StringBuilder();
+            for (int i = 0; i < matchesFromThread.Count; ++i)
+            {
+                allMatches.AppendLine(((Match)matchesFromThread[i]).Value);
+            }
+
+            Clipboard.SetText(allMatches.ToString());
+        }
         #endregion
 
         #region Event Handlers
@@ -803,7 +813,7 @@ namespace Regex_Builder
                 RegularExpression.ScrollToCaret();
             }
 
-            RunExpression(); 
+            RunExpression();
         }
 
         private void OptionChanged(object sender, EventArgs e)
@@ -1051,25 +1061,25 @@ namespace Regex_Builder
         { SurroundSelectionWith(@"(?>", @")"); }
 
         private void mMainHelp_Click(object sender, System.EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconRegularExpressionsLanguageElements.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"); }
 
         private void mCharEscapesHelp_Click(object sender, System.EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconcharacterescapes.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/character-escapes-in-regular-expressions"); }
 
         private void mCharClassesHelp_Click(object sender, System.EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconcharacterclasses.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/character-classes-in-regular-expressions"); }
 
         private void mAssertionHelp_Click(object sender, System.EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconatomiczero-widthassertions.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/anchors-in-regular-expressions"); }
 
         private void mQuantifierHelp_Click(object sender, System.EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconquantifiers.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/quantifiers-in-regular-expressions"); }
 
         private void mGroupingHelp_Click(object sender, System.EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpcongroupingconstructs.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/grouping-constructs-in-regular-expressions"); }
 
         private void mOptionsHelp_Click(object sender, EventArgs e)
-        { RunURL("http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconregularexpressionoptions.asp"); }
+        { RunURL("https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options"); }
 
         private void mLoadSourceText_Click(object sender, System.EventArgs e)
         {
@@ -1118,8 +1128,13 @@ namespace Regex_Builder
         { RunExpression(); }
 
         private void mFeedback_Click(object sender, System.EventArgs e)
-        { RunURL("mailto:scottlo@microsoft.com"); }
+        { RunURL("mailto:scottlo@outlook.com"); }
 
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        { CopyAllMatchesToClipboard(); }
+
+        private void mCopyAllMatches_Click(object sender, EventArgs e)
+        { CopyAllMatchesToClipboard(); }
 
         private void mSetTolerantOptions_Click(object sender, EventArgs e)
         {
@@ -1161,7 +1176,7 @@ namespace Regex_Builder
             Length = len;
         }
 
-        public Region(int idx, int len, RegionType type, string matchID, string groupID, string captureID )
+        public Region(int idx, int len, RegionType type, string matchID, string groupID, string captureID)
         {
             Index = idx;
             Length = len;

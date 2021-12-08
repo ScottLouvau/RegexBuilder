@@ -114,7 +114,9 @@ namespace Regex_Builder
             this.mLoadFile = new System.Windows.Forms.MenuItem();
             this.mSaveFile = new System.Windows.Forms.MenuItem();
             this.mEscapeSelectionExpression = new System.Windows.Forms.MenuItem();
+            this.mUnescapeSelectionExpression = new System.Windows.Forms.MenuItem();
             this.mExecuteSelectionExpression = new System.Windows.Forms.MenuItem();
+            this.mCopyAllMatches = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.mMainHelp = new System.Windows.Forms.MenuItem();
             this.mFeedback = new System.Windows.Forms.MenuItem();
@@ -146,13 +148,16 @@ namespace Regex_Builder
             this.hiddenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mUnescapeSelectionExpression = new System.Windows.Forms.MenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitMain)).BeginInit();
             this.SplitMain.Panel1.SuspendLayout();
             this.SplitMain.Panel2.SuspendLayout();
             this.SplitMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitLeft)).BeginInit();
             this.SplitLeft.Panel1.SuspendLayout();
             this.SplitLeft.Panel2.SuspendLayout();
             this.SplitLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitRight)).BeginInit();
             this.SplitRight.Panel1.SuspendLayout();
             this.SplitRight.Panel2.SuspendLayout();
             this.SplitRight.SuspendLayout();
@@ -176,6 +181,7 @@ namespace Regex_Builder
             this.mEscapeSelectionExpression,
             this.mUnescapeSelectionExpression,
             this.mExecuteSelectionExpression,
+            this.mCopyAllMatches,
             this.menuItem2,
             this.mMainHelp,
             this.mFeedback});
@@ -736,27 +742,41 @@ namespace Regex_Builder
             this.mEscapeSelectionExpression.Text = "&Escape Selection/Expression";
             this.mEscapeSelectionExpression.Click += new System.EventHandler(this.mEscapeSelectionExpression_Click);
             // 
+            // mUnescapeSelectionExpression
+            // 
+            this.mUnescapeSelectionExpression.Index = 11;
+            this.mUnescapeSelectionExpression.Text = "&Unescape Selection/Expression";
+            this.mUnescapeSelectionExpression.Click += new System.EventHandler(this.mUnescapeSelectionExpression_Click);
+            // 
             // mExecuteSelectionExpression
             // 
             this.mExecuteSelectionExpression.Index = 12;
+            this.mExecuteSelectionExpression.Shortcut = System.Windows.Forms.Shortcut.F5;
             this.mExecuteSelectionExpression.Text = "E&xecute Selection/Expression";
             this.mExecuteSelectionExpression.Click += new System.EventHandler(this.mExecuteSelectionExpression_Click);
             // 
+            // mCopyAllMatches
+            // 
+            this.mCopyAllMatches.Index = 13;
+            this.mCopyAllMatches.Shortcut = System.Windows.Forms.Shortcut.F7;
+            this.mCopyAllMatches.Text = "&Copy All Matches";
+            this.mCopyAllMatches.Click += new System.EventHandler(this.mCopyAllMatches_Click);
+            // 
             // menuItem2
             // 
-            this.menuItem2.Index = 13;
+            this.menuItem2.Index = 14;
             this.menuItem2.Text = "-";
             // 
             // mMainHelp
             // 
-            this.mMainHelp.Index = 14;
+            this.mMainHelp.Index = 15;
             this.mMainHelp.Text = "Regular Expression &Help";
             this.mMainHelp.Click += new System.EventHandler(this.mMainHelp_Click);
             // 
             // mFeedback
             // 
-            this.mFeedback.Index = 15;
-            this.mFeedback.Text = "&Give Feedback (to ScottLo)";
+            this.mFeedback.Index = 16;
+            this.mFeedback.Text = "&Give Feedback";
             this.mFeedback.Click += new System.EventHandler(this.mFeedback_Click);
             // 
             // SplitMain
@@ -812,9 +832,9 @@ namespace Regex_Builder
             // 
             // RegularExpression
             // 
-            this.RegularExpression.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.RegularExpression.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.RegularExpression.Location = new System.Drawing.Point(3, 3);
             this.RegularExpression.Name = "RegularExpression";
             this.RegularExpression.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedHorizontal;
@@ -912,13 +932,13 @@ namespace Regex_Builder
             this.toolStripMenuItem2,
             this.helpToolStripMenuItem});
             this.OptionsMenu.Name = "OptionsMenu";
-            this.OptionsMenu.Size = new System.Drawing.Size(214, 258);
+            this.OptionsMenu.Size = new System.Drawing.Size(229, 258);
             // 
             // OptionCultureInvariant
             // 
             this.OptionCultureInvariant.CheckOnClick = true;
             this.OptionCultureInvariant.Name = "OptionCultureInvariant";
-            this.OptionCultureInvariant.Size = new System.Drawing.Size(213, 22);
+            this.OptionCultureInvariant.Size = new System.Drawing.Size(228, 22);
             this.OptionCultureInvariant.Text = "&Culture Invariant";
             this.OptionCultureInvariant.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -926,7 +946,7 @@ namespace Regex_Builder
             // 
             this.OptionEcmaScript.CheckOnClick = true;
             this.OptionEcmaScript.Name = "OptionEcmaScript";
-            this.OptionEcmaScript.Size = new System.Drawing.Size(213, 22);
+            this.OptionEcmaScript.Size = new System.Drawing.Size(228, 22);
             this.OptionEcmaScript.Text = "&ECMA Script";
             this.OptionEcmaScript.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -934,7 +954,7 @@ namespace Regex_Builder
             // 
             this.OptionExplicitCapture.CheckOnClick = true;
             this.OptionExplicitCapture.Name = "OptionExplicitCapture";
-            this.OptionExplicitCapture.Size = new System.Drawing.Size(213, 22);
+            this.OptionExplicitCapture.Size = new System.Drawing.Size(228, 22);
             this.OptionExplicitCapture.Text = "E&xplicit Capture";
             this.OptionExplicitCapture.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -942,7 +962,7 @@ namespace Regex_Builder
             // 
             this.OptionIgnoreCase.CheckOnClick = true;
             this.OptionIgnoreCase.Name = "OptionIgnoreCase";
-            this.OptionIgnoreCase.Size = new System.Drawing.Size(213, 22);
+            this.OptionIgnoreCase.Size = new System.Drawing.Size(228, 22);
             this.OptionIgnoreCase.Text = "&Ignore Case";
             this.OptionIgnoreCase.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -950,7 +970,7 @@ namespace Regex_Builder
             // 
             this.OptionIgnorePatternWhitespace.CheckOnClick = true;
             this.OptionIgnorePatternWhitespace.Name = "OptionIgnorePatternWhitespace";
-            this.OptionIgnorePatternWhitespace.Size = new System.Drawing.Size(213, 22);
+            this.OptionIgnorePatternWhitespace.Size = new System.Drawing.Size(228, 22);
             this.OptionIgnorePatternWhitespace.Text = "Ignore Pattern &Whitespace";
             this.OptionIgnorePatternWhitespace.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -958,7 +978,7 @@ namespace Regex_Builder
             // 
             this.OptionMultiline.CheckOnClick = true;
             this.OptionMultiline.Name = "OptionMultiline";
-            this.OptionMultiline.Size = new System.Drawing.Size(213, 22);
+            this.OptionMultiline.Size = new System.Drawing.Size(228, 22);
             this.OptionMultiline.Text = "&Multiline";
             this.OptionMultiline.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -966,7 +986,7 @@ namespace Regex_Builder
             // 
             this.OptionRightToLeft.CheckOnClick = true;
             this.OptionRightToLeft.Name = "OptionRightToLeft";
-            this.OptionRightToLeft.Size = new System.Drawing.Size(213, 22);
+            this.OptionRightToLeft.Size = new System.Drawing.Size(228, 22);
             this.OptionRightToLeft.Text = "&Right To Left";
             this.OptionRightToLeft.Click += new System.EventHandler(this.OptionChanged);
             // 
@@ -974,38 +994,38 @@ namespace Regex_Builder
             // 
             this.OptionSingleline.CheckOnClick = true;
             this.OptionSingleline.Name = "OptionSingleline";
-            this.OptionSingleline.Size = new System.Drawing.Size(213, 22);
+            this.OptionSingleline.Size = new System.Drawing.Size(228, 22);
             this.OptionSingleline.Text = "&Singleline";
             this.OptionSingleline.Click += new System.EventHandler(this.OptionChanged);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(225, 6);
             // 
             // setTolerantOptionsToolStripMenuItem
             // 
             this.setTolerantOptionsToolStripMenuItem.Name = "setTolerantOptionsToolStripMenuItem";
-            this.setTolerantOptionsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.setTolerantOptionsToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.setTolerantOptionsToolStripMenuItem.Text = "Set &Tolerant Options";
             this.setTolerantOptionsToolStripMenuItem.Click += new System.EventHandler(this.mSetTolerantOptions_Click);
             // 
             // pushOptionsIntoExpressionToolStripMenuItem
             // 
             this.pushOptionsIntoExpressionToolStripMenuItem.Name = "pushOptionsIntoExpressionToolStripMenuItem";
-            this.pushOptionsIntoExpressionToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.pushOptionsIntoExpressionToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.pushOptionsIntoExpressionToolStripMenuItem.Text = "&Push Options into Expression";
             this.pushOptionsIntoExpressionToolStripMenuItem.Click += new System.EventHandler(this.mCurrentOptionsGroup_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(210, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(225, 6);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.helpToolStripMenuItem.Text = "&Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.mOptionsHelp_Click);
             // 
@@ -1025,9 +1045,10 @@ namespace Regex_Builder
             // 
             this.hiddenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.executeToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.copyToolStripMenuItem});
             this.hiddenToolStripMenuItem.Name = "hiddenToolStripMenuItem";
-            this.hiddenToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.hiddenToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.hiddenToolStripMenuItem.Text = "[Hidden]";
             this.hiddenToolStripMenuItem.Visible = false;
             // 
@@ -1035,7 +1056,7 @@ namespace Regex_Builder
             // 
             this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
             this.executeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.executeToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.executeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.executeToolStripMenuItem.Text = "Execute";
             this.executeToolStripMenuItem.Click += new System.EventHandler(this.ExecuteButton_Click);
             // 
@@ -1043,15 +1064,17 @@ namespace Regex_Builder
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsButton_Click);
             // 
-            // mUnescapeSelectionExpression
+            // copyToolStripMenuItem
             // 
-            this.mUnescapeSelectionExpression.Index = 11;
-            this.mUnescapeSelectionExpression.Text = "&Unescape Selection/Expression";
-            this.mUnescapeSelectionExpression.Click += new System.EventHandler(this.mUnescapeSelectionExpression_Click);
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // RegexBuilder
             // 
@@ -1062,17 +1085,20 @@ namespace Regex_Builder
             this.Controls.Add(this.SplitMain);
             this.MainMenuStrip = this.mainMenu;
             this.Name = "RegexBuilder";
-            this.Text = "Regex Builder 2.05";
+            this.Text = "Regex Builder 2.10";
             this.Load += new System.EventHandler(this.RegexBuilder_Load);
             this.SplitMain.Panel1.ResumeLayout(false);
             this.SplitMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitMain)).EndInit();
             this.SplitMain.ResumeLayout(false);
             this.SplitLeft.Panel1.ResumeLayout(false);
             this.SplitLeft.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitLeft)).EndInit();
             this.SplitLeft.ResumeLayout(false);
             this.SplitRight.Panel1.ResumeLayout(false);
             this.SplitRight.Panel2.ResumeLayout(false);
             this.SplitRight.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitRight)).EndInit();
             this.SplitRight.ResumeLayout(false);
             this.OptionsMenu.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
@@ -1200,5 +1226,7 @@ namespace Regex_Builder
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.RichTextBox RegularExpression;
         private System.Windows.Forms.MenuItem mUnescapeSelectionExpression;
+        private System.Windows.Forms.MenuItem mCopyAllMatches;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
     }
 }
